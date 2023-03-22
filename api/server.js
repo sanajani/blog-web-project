@@ -11,6 +11,7 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cros({credentials:true,origin:'http://localhost:3000'}));
+app.use(express.static('public'))
 const PORT = process.env.PORT || 7000
 
 // databse url
