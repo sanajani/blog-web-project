@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "client-install":"cd client  && npm install",
+    "client-build":"cd client && npm run build",
+    "heroku-postbuild":"npm run client-install && npm run client-build"
   },
   "keywords": [],
   "author": "",

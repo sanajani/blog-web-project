@@ -1,24 +1,26 @@
 import postModel from '../models/postModel.js';
 import slugify from 'slugify'
 
+const url = ''
 
-const createPost = async (req,res) => {
-    const {title,summary,content} = req.body;
-    const slugifiedTitle = slugify(title,{
+const createPost = async (req, res) => {
+    const { title, summary, content } = req.body;
+    const slugifiedTitle = slugify(title, {
         strict: true,
         lower: true
     })
-    const {path} = req?.file;
+    const { path } = req?.file;
     const newPath = path.slice(6)
-    
-    if(!title || !summary || !content || !path) return res.status(400).json("all the fileds are required")
+    const newrPath = `${url}/${newPath}`
+
+    if (!title || !summary || !content || !path) return res.status(400).json("all the fileds are required")
 
     try {
         const createdPost = await postModel.create({
             postTitle: title,
             postSummary: summary,
             postContent: content,
-            postImage: newPath,
+            postImage: newrPath,
             slug: slugifiedTitle
         })
         await createdPost.save();
@@ -30,25 +32,36 @@ const createPost = async (req,res) => {
 
 
 // get all posts
-const getAllPost = async (req,res) => {
+const getAllPost = async (req, res) => {
     try {
         const posts = await postModel.find().sort('asc');
-        res.status(200).json({posts})
+        res.status(200).json({ posts })
     } catch (error) {
         console.log(error.message);
     }
 }
 
+// get Single post
+const getSinglePostById = async (req, res) => {
+    const { slug } = req.params;
+    try {
+        const post = await postModel.findOne({ slug });
+        res.status(201).json({ message: "Success", post })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
-const getSinglePostById = async (req,res) => {
+// delete post
+const deleteSinglePost = async (req,res) => {
     const {slug} = req.params;
     try {
-        const post = await postModel.findOne({slug});
-        res.status(201).json({message:"Success",post})
+        const deletePost = await postModel.findOneAndDelete({slug});
+        console.log(deletePost);
+        return res.status(200).json({message:"Post Deleted Successfully",deletePost});        
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({message:"Something went wrong", error: error.message});
     }
 }
 
-
-export {createPost, getAllPost,getSinglePostById}
+export { createPost, getAllPost, getSinglePostById, deleteSinglePost }

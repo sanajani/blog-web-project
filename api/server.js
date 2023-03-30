@@ -17,7 +17,9 @@ const PORT = process.env.PORT || 7000
 // databse url
 import databaseConnection from './database/connectDB.js';
 // database connection
-const DB_URL = process.env.DB_URL
+const USERNAME = process.env.DB_USER;
+const PASSWORD = process.env.DB_PASSWORD;
+const DB_URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.dsqn0pi.mongodb.net/?retryWrites=true&w=majority`
 
 
 // middlewares created by me
@@ -25,6 +27,11 @@ import blogRouter from './routes/blogRouter.js';
 import userRoute from './routes/userRoute.js';
 import dashbordRouter from './routes/dashbordRouter.js';
 import postRouter from './routes/postRouter.js';
+
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static("client/build"));
+    
+}
 
 app.use('/blog',blogRouter);
 app.use('/user',userRoute);
