@@ -19,8 +19,8 @@ import databaseConnection from './database/connectDB.js';
 // database connection
 const USERNAME = process.env.DB_USER;
 const PASSWORD = process.env.DB_PASSWORD;
-const DB_URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.dsqn0pi.mongodb.net/?retryWrites=true&w=majority`
-
+// const DB_URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.dsqn0pi.mongodb.net/?retryWrites=true&w=majority`
+const db_url = 'mongodb://localhost:27017'
 
 // middlewares created by me
 import blogRouter from './routes/blogRouter.js';
@@ -36,9 +36,10 @@ if(process.env.NODE_ENV === "production"){
 app.use('/blog',blogRouter);
 app.use('/user',userRoute);
 app.use('/admin',dashbordRouter);
-app.use('/post',postRouter)
+app.use('/post',postRouter);
+
 
 app.listen(PORT,()=>{
     console.log(`your website is running on port http://localhost:${PORT}`)
-    databaseConnection(DB_URL)
+    databaseConnection(db_url)
 })

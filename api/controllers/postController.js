@@ -5,15 +5,16 @@ const url = ''
 
 const createPost = async (req, res) => {
     const { title, summary, content } = req.body;
+
     const slugifiedTitle = slugify(title, {
         strict: true,
         lower: true
     })
     const { path } = req?.file;
+    if (!title || !summary || !content || !path) return res.status(400).json("all the fileds are required")
     const newPath = path.slice(6)
     const newrPath = `${url}/${newPath}`
 
-    if (!title || !summary || !content || !path) return res.status(400).json("all the fileds are required")
 
     try {
         const createdPost = await postModel.create({
