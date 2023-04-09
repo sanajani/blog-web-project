@@ -1,7 +1,7 @@
 import postModel from '../models/postModel.js';
 import slugify from 'slugify'
 
-const url = ''
+const url = process.env.BASE_URL || ''
 
 const createPost = async (req, res) => {
     const { title, summary, content } = req.body;

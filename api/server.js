@@ -19,7 +19,7 @@ import databaseConnection from './database/connectDB.js';
 // database connection
 const USERNAME = process.env.DB_USER;
 const PASSWORD = process.env.DB_PASSWORD;
-// const DB_URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.dsqn0pi.mongodb.net/?retryWrites=true&w=majority`
+const DB_URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.dsqn0pi.mongodb.net/?retryWrites=true&w=majority`
 const db_url = 'mongodb://localhost:27017'
 
 // middlewares created by me
